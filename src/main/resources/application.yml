@@ -1,0 +1,20 @@
+server:
+  port: 8877
+  servlet:
+    context-path: /
+spring:
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/activiti7?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+  #Activi7历史表创建
+  activiti:
+    history-level: full
+    db-history-used: true
+    # 关闭自动部署
+    check-process-definitions: false
+
+mybatis:
+  mapper-locations: classpath:mapper/**
+  type-aliases-package: com.zsj.activiti7.pojo.entity

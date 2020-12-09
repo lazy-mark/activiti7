@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zsj.activiti7.mapper.DynamicFormDataMapper">
+
+    <resultMap id="BASE_MAP" type="com.zsj.activiti7.pojo.entity.DynamicFormData">
+        <id property="id" column="id"/>
+        <result property="procDefId" column="PROC_DEF_ID_" />
+        <result property="procInstId" column="PROC_INST_ID_" />
+        <result property="formKey" column="FORM_KEY_" />
+        <result property="fields" column="fields" />
+    </resultMap>
+
+    <sql id="BASE_SQL">
+        id, PROC_DEF_ID_, PROC_INST_ID_, FORM_KEY_, fields
+    </sql>
+
+    <insert id="insertFormData" keyProperty="id" useGeneratedKeys="true">
+        insert into dynamic_form_data(`PROC_DEF_ID_`,`PROC_INST_ID_`,`FORM_KEY_`,`fields`)
+        values(#{formData.procDefId,jdbcType=VARCHAR},#{formData.procInstId,jdbcType=VARCHAR},
+          #{formData.formKey,jdbcType=VARCHAR},#{formData.fields,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteFormDataByFormKey" parameterType="String">
+        delete from dynamic_form_data where FORM_KEY_ = #{formKey}
+    </delete>
+
+    <select id="selectFormDataByFormKey" resultMap="BASE_MAP" parameterType="String">
+        select <include refid="BASE_SQL" />
+        from dynamic_form_data where FORM_KEY_ = #{formKey}
+    </select>
+    <select id="selectFormDataByProcInstId" resultType="com.zsj.activiti7.pojo.entity.DynamicFormData">
+        select <include refid="BASE_SQL" />
+        from dynamic_form_data where PROC_INST_ID_ = #{processInstId}
+    </select>
+
+</mapper>

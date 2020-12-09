@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://activiti.org/bpmn20" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="definitions" name="" targetNamespace="http://activiti.org/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <process id="DINGTALK_REIMBURSE_DTEC1910111NIUH9H2" isClosed="false" isExecutable="true" name="DINGTALK REIMBURSE Process for DTEC1910111NIUH9H2" processType="None">
+    <userTask activiti:candidateUsers="${dingTalkProcessService.getSpecificReferenceDataDetailPrincipal('RD1912171DA79CW0', false, true, true,'Y', execution)}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTask(execution)}" id="DINGTALK_FLOW_f5e52cde-32c3-46c9-9e40-8ecea90663e4" name="项目负责人">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb-f5e52cde-32c3-46c9-9e40-8ecea90663e4-1" sourceRef="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb" targetRef="DINGTALK_FLOW_f5e52cde-32c3-46c9-9e40-8ecea90663e4">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${dingTalkProcessService.isConditionSatisfied('PSC1912171IG238N4', execution)}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway gatewayDirection="Unspecified" id="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb" name="e7118343-55c6-482b-bb57-e16b18ac5aeb"/>
+    <sequenceFlow id="DINGTALK_FLOW_start-e7118343-55c6-482b-bb57-e16b18ac5aeb-2" sourceRef="DINGTALK_FLOW_start" targetRef="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb"/>
+    <userTask activiti:candidateUsers="${dingTalkProcessService.getSuperiorDepartmentManagers(-2, true, true,'COVER_DEPARTMENT','Y',execution)}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTask(execution)}" id="DINGTALK_FLOW_ccd6bda8-c69f-4adf-bd9f-8984a57efb69" name="直接主管审批">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.updateApprovalDepartmentChain('COVER_DEPARTMENT', execution)}"/>
+      </extensionElements>
+      <multiInstanceLoopCharacteristics isSequential="true">
+        <loopCardinality><![CDATA[50]]></loopCardinality>
+        <completionCondition><![CDATA[${!dingTalkProcessService.hasSuperiorDepartmentManagers(true, true,'COVER_DEPARTMENT',execution) || dingTalkProcessService.isSpecificLevelDepartmentManager(-2, 'COVER_DEPARTMENT', execution)}]]></completionCondition>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
+    <exclusiveGateway gatewayDirection="Unspecified" id="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f" name="bd0c2faa-e110-4a26-915a-b7816349121f"/>
+    <sequenceFlow id="DINGTALK_FLOW_f5e52cde-32c3-46c9-9e40-8ecea90663e4-bd0c2faa-e110-4a26-915a-b7816349121f-3" sourceRef="DINGTALK_FLOW_f5e52cde-32c3-46c9-9e40-8ecea90663e4" targetRef="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f"/>
+    <userTask activiti:candidateUsers="${dingTalkProcessService.getSuperiorDepartmentManagers(2, true, true,'COVER_DEPARTMENT','Y',execution)}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTask(execution)}" id="DINGTALK_FLOW_0a6a9ef7-cc92-4fa4-bfbb-64c545074964" name="二级审批">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.updateApprovalDepartmentChain('COVER_DEPARTMENT', execution)}"/>
+      </extensionElements>
+      <multiInstanceLoopCharacteristics isSequential="true">
+        <loopCardinality><![CDATA[50]]></loopCardinality>
+        <completionCondition><![CDATA[${!dingTalkProcessService.hasSuperiorDepartmentManagers(true, true,'COVER_DEPARTMENT',execution) || dingTalkProcessService.isSpecificLevelDepartmentManager(2, 'COVER_DEPARTMENT', execution)}]]></completionCondition>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_297dd328-8535-4da1-b8e0-2f420c58dfcd-0a6a9ef7-cc92-4fa4-bfbb-64c545074964-4" sourceRef="DINGTALK_FLOW_297dd328-8535-4da1-b8e0-2f420c58dfcd" targetRef="DINGTALK_FLOW_0a6a9ef7-cc92-4fa4-bfbb-64c545074964"/>
+    <userTask activiti:candidateUsers="${dingTalkProcessService.getSpecificUsers('UI1910111NWYGBGQ', true, true,'Y', execution)}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTask(execution)}" id="DINGTALK_FLOW_297dd328-8535-4da1-b8e0-2f420c58dfcd" name="一级审批">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f-297dd328-8535-4da1-b8e0-2f420c58dfcd-5" sourceRef="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f" targetRef="DINGTALK_FLOW_297dd328-8535-4da1-b8e0-2f420c58dfcd">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${dingTalkProcessService.isConditionSatisfied('PSC2007141VYDX474', execution)}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask activiti:candidateUsers="${dingTalkProcessService.getSuperiorDepartmentManagers(-1, true, true,'COVER_DEPARTMENT','Y',execution)}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTask(execution)}" id="DINGTALK_FLOW_c6271cd9-fd4d-4b4d-8711-b49f5e8d4202" name="领导审批">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.updateApprovalDepartmentChain('COVER_DEPARTMENT', execution)}"/>
+      </extensionElements>
+      <multiInstanceLoopCharacteristics isSequential="true">
+        <loopCardinality><![CDATA[50]]></loopCardinality>
+        <completionCondition><![CDATA[${!dingTalkProcessService.hasSuperiorDepartmentManagers(true, true,'COVER_DEPARTMENT',execution) || dingTalkProcessService.isSpecificLevelDepartmentManager(-1, 'COVER_DEPARTMENT', execution)}]]></completionCondition>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f-c6271cd9-fd4d-4b4d-8711-b49f5e8d4202-6" sourceRef="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f" targetRef="DINGTALK_FLOW_c6271cd9-fd4d-4b4d-8711-b49f5e8d4202">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${dingTalkProcessService.isConditionSatisfied('PSC2007151E0ZG3GG', execution)}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask activiti:candidateUsers="${dingTalkProcessService.getSpecificReferenceDataDetailPrincipal('RD1912171DA79CW0', false, true, true,'Y', execution)}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTask(execution)}" id="DINGTALK_FLOW_7c4bb8f9-1f8d-4597-a3d2-9893b64113f3" name="选项负责人">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8-7c4bb8f9-1f8d-4597-a3d2-9893b64113f3-7" sourceRef="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8" targetRef="DINGTALK_FLOW_7c4bb8f9-1f8d-4597-a3d2-9893b64113f3">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${dingTalkProcessService.isConditionSatisfied('PSC1912281PIUVB40', execution)}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway gatewayDirection="Unspecified" id="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8" name="ed60ca90-15d0-4e18-97b4-33a858e5d5a8"/>
+    <sequenceFlow id="DINGTALK_FLOW_ccd6bda8-c69f-4adf-bd9f-8984a57efb69-ed60ca90-15d0-4e18-97b4-33a858e5d5a8-8" sourceRef="DINGTALK_FLOW_ccd6bda8-c69f-4adf-bd9f-8984a57efb69" targetRef="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8"/>
+    <sequenceFlow id="DINGTALK_FLOW_c6271cd9-fd4d-4b4d-8711-b49f5e8d4202-ed60ca90-15d0-4e18-97b4-33a858e5d5a8-9" sourceRef="DINGTALK_FLOW_c6271cd9-fd4d-4b4d-8711-b49f5e8d4202" targetRef="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8"/>
+    <sequenceFlow id="DINGTALK_FLOW_0a6a9ef7-cc92-4fa4-bfbb-64c545074964-ed60ca90-15d0-4e18-97b4-33a858e5d5a8-10" sourceRef="DINGTALK_FLOW_0a6a9ef7-cc92-4fa4-bfbb-64c545074964" targetRef="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8"/>
+    <userTask activiti:candidateGroups="${dingTalkProcessService.getSpecificSubUserGroup('PUG191217S1T846B', true, true,'Y', execution)}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTask(execution)}" id="DINGTALK_FLOW_db4fe3dc-f754-4726-a888-a4343b1f2ab8" name="子画">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec-db4fe3dc-f754-4726-a888-a4343b1f2ab8-11" sourceRef="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec" targetRef="DINGTALK_FLOW_db4fe3dc-f754-4726-a888-a4343b1f2ab8">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${dingTalkProcessService.isConditionSatisfied('PSC1912301F9QHKLC', execution)}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway gatewayDirection="Unspecified" id="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec" name="4e84a126-2e02-4d33-ab4d-cb9410daf0ec"/>
+    <sequenceFlow id="DINGTALK_FLOW_7c4bb8f9-1f8d-4597-a3d2-9893b64113f3-4e84a126-2e02-4d33-ab4d-cb9410daf0ec-12" sourceRef="DINGTALK_FLOW_7c4bb8f9-1f8d-4597-a3d2-9893b64113f3" targetRef="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec"/>
+    <userTask activiti:candidateGroups="${dingTalkProcessService.getSpecificSubUserGroup('PUG19121712IKSC45', true, true,'Y', execution)}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTask(execution)}" id="DINGTALK_FLOW_2ee67020-227e-4d07-9ca2-c41ebe5e867a" name="分管VP">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+      </extensionElements>
+    </userTask>
+    <userTask activiti:candidateGroups="${dingTalkProcessService.getSpecificSubUserGroup('PUG191217S1T846B', true, true,'Y', execution)}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTask(execution)}" id="DINGTALK_FLOW_afec5084-a10b-4f03-be2f-b66c5b7cbd1d" name="CEO">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway gatewayDirection="Unspecified" id="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972" name="8a209423-da1d-4d82-a12b-63318fd87972"/>
+    <sequenceFlow id="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee-8a209423-da1d-4d82-a12b-63318fd87972-13" sourceRef="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee" targetRef="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${dingTalkProcessService.isConditionSatisfied('PSC19121713D76000', execution)}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask activiti:assignee="${target}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTaskByUnanimous(true,true,execution)}" id="DINGTALK_FLOW_69cb4330-7fed-4988-9281-e5507c606550" name="营销HRBP">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+      </extensionElements>
+      <multiInstanceLoopCharacteristics activiti:collection="${dingTalkProcessService.getSpecificUsersByUnanimous('UI1910111NE0ZQHA','Y', execution)}" activiti:elementVariable="target" isSequential="false">
+        <completionCondition><![CDATA[${nrOfInstances == 0 || nrOfCompletedInstances/nrOfInstances == 1}]]></completionCondition>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-69cb4330-7fed-4988-9281-e5507c606550-14" sourceRef="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e" targetRef="DINGTALK_FLOW_69cb4330-7fed-4988-9281-e5507c606550">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${dingTalkProcessService.isConditionSatisfied('PSC20073011US2QV4', execution)}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway gatewayDirection="Unspecified" id="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e" name="f9852951-e513-444d-9d89-782ad253b40e"/>
+    <sequenceFlow id="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972-f9852951-e513-444d-9d89-782ad253b40e-15" sourceRef="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972" targetRef="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${dingTalkProcessService.isConditionSatisfied('PSC1912281PEH4GZK', execution)}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask activiti:candidateUsers="${dingTalkProcessService.getSpecificUsers('UI191211XGXAECZ', true, true,'Y', execution)}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTask(execution)}" id="DINGTALK_FLOW_25817de4-715a-4149-ba1d-9b45fd647d65" name="运营HRBP">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-25817de4-715a-4149-ba1d-9b45fd647d65-16" sourceRef="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e" targetRef="DINGTALK_FLOW_25817de4-715a-4149-ba1d-9b45fd647d65">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${dingTalkProcessService.isConditionSatisfied('PSC200730121LLGJK', execution)}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask activiti:assignee="${target}" activiti:category="APPROVAL" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTaskByUnanimous(true,true,execution)}" id="DINGTALK_FLOW_f04a5022-2e18-4a81-9d07-531717407e08" name="产品技术HRBP">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('strategyWithEmptyCandidate', 'Y')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'APPROVING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'APPROVAL_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'APPROVAL')}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordApprovedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+      </extensionElements>
+      <multiInstanceLoopCharacteristics activiti:collection="${dingTalkProcessService.getSpecificUsersByUnanimous('UI1910111NTCHTOC','Y', execution)}" activiti:elementVariable="target" isSequential="false">
+        <completionCondition><![CDATA[${nrOfInstances == 0 || nrOfCompletedInstances/nrOfInstances == 1}]]></completionCondition>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-f04a5022-2e18-4a81-9d07-531717407e08-17" sourceRef="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e" targetRef="DINGTALK_FLOW_f04a5022-2e18-4a81-9d07-531717407e08">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${dingTalkProcessService.isConditionSatisfied('PSC2007301239KWSG', execution)}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway gatewayDirection="Unspecified" id="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee" name="701035c8-c2ff-4a88-b6f2-61884873e3ee"/>
+    <sequenceFlow id="DINGTALK_FLOW_2ee67020-227e-4d07-9ca2-c41ebe5e867a-701035c8-c2ff-4a88-b6f2-61884873e3ee-18" sourceRef="DINGTALK_FLOW_2ee67020-227e-4d07-9ca2-c41ebe5e867a" targetRef="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee"/>
+    <sequenceFlow id="DINGTALK_FLOW_db4fe3dc-f754-4726-a888-a4343b1f2ab8-701035c8-c2ff-4a88-b6f2-61884873e3ee-19" sourceRef="DINGTALK_FLOW_db4fe3dc-f754-4726-a888-a4343b1f2ab8" targetRef="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee"/>
+    <endEvent id="DINGTALK_FLOW_end">
+      <extensionElements>
+        <activiti:executionListener event="end" expression="${dingTalkProcessService.updateStatus(execution, 'COMPLETED', false)}"/>
+        <activiti:executionListener event="end" expression="${dingTalkProcessService.recordCompletedDate(execution)}"/>
+        <activiti:executionListener event="end" expression="${dingTalkProcessService.endPostProcessor(execution)}"/>
+      </extensionElements>
+    </endEvent>
+    <sequenceFlow id="DINGTALK_FLOW_settle-end-20" sourceRef="DINGTALK_FLOW_settle" targetRef="DINGTALK_FLOW_end"/>
+    <userTask activiti:candidateGroups="${dingTalkProcessService.getSpecificSubUserGroupForFinance('PUG200424ZYLJ2IV', true, false, execution)}" activiti:category="CASHIER_SETTLE" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipSettleTask(true, false, execution)}" id="DINGTALK_FLOW_settle" name="出纳支付">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('isSkipByBankAutoPayment', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', true)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', true)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'SETTLEMENT', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'SETTLE_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'SETTLING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_35246ca2-ecf0-405a-ab65-ad8c30bd9907-settle-21" sourceRef="DINGTALK_FLOW_35246ca2-ecf0-405a-ab65-ad8c30bd9907" targetRef="DINGTALK_FLOW_settle"/>
+    <userTask activiti:category="VOUCHER_PAYABLE" activiti:exclusive="true" activiti:skipExpression="${true}" id="DINGTALK_FLOW_35246ca2-ecf0-405a-ab65-ad8c30bd9907" name="应付凭证生成">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.handlePayableVoucherTask(task, 'null')}"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_audit-35246ca2-ecf0-405a-ab65-ad8c30bd9907-22" sourceRef="DINGTALK_FLOW_audit" targetRef="DINGTALK_FLOW_35246ca2-ecf0-405a-ab65-ad8c30bd9907"/>
+    <userTask activiti:candidateGroups="${dingTalkProcessService.getSpecificSubUserGroup('PUG19121713JZPK06', false, false, execution)}" activiti:category="FINANCE_AUDIT" activiti:exclusive="true" activiti:skipExpression="${dingTalkProcessService.skipTask(execution)}" id="DINGTALK_FLOW_audit" name="财务审核">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('backToPrevApprover', true)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('userHandSign', 'NON_USE_HAND_SIGN')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('grantModifyToSubmitter', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('revert', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('rejectToPrevious', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('recallNotAllowed', false)}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('processTagCode', 'PT2010231NSPNNK0')}"/>
+        <activiti:taskListener event="create" expression="${task.setVariableLocal('allowUpdateVoucher', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.updateStatus(execution, 'AUDITING', false)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordProcessLog(task, 'AUDIT_START')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendMessage(task, 'AUDIT')}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.recordFormTask(execution)}"/>
+        <activiti:taskListener event="complete" expression="${dingTalkProcessService.recordAuditedDate(execution)}"/>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.sendCalloutMsg(task)}"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-audit-23" sourceRef="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be" targetRef="DINGTALK_FLOW_audit"/>
+    <userTask activiti:category="NOTICE" activiti:exclusive="true" activiti:skipExpression="${true}" id="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be" name="未命名节点">
+      <extensionElements>
+        <activiti:taskListener event="create" expression="${dingTalkProcessService.handleDDMessageNoticeTask(task, 'CMI19121714EX7GG0', false, true, false, false,'null')}"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="DINGTALK_FLOW_f04a5022-2e18-4a81-9d07-531717407e08-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-24" sourceRef="DINGTALK_FLOW_f04a5022-2e18-4a81-9d07-531717407e08" targetRef="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be"/>
+    <sequenceFlow id="DINGTALK_FLOW_afec5084-a10b-4f03-be2f-b66c5b7cbd1d-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-25" sourceRef="DINGTALK_FLOW_afec5084-a10b-4f03-be2f-b66c5b7cbd1d" targetRef="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be"/>
+    <sequenceFlow id="DINGTALK_FLOW_25817de4-715a-4149-ba1d-9b45fd647d65-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-26" sourceRef="DINGTALK_FLOW_25817de4-715a-4149-ba1d-9b45fd647d65" targetRef="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be"/>
+    <sequenceFlow id="DINGTALK_FLOW_69cb4330-7fed-4988-9281-e5507c606550-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-27" sourceRef="DINGTALK_FLOW_69cb4330-7fed-4988-9281-e5507c606550" targetRef="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be"/>
+    <startEvent activiti:initiator="submitUserCode" id="DINGTALK_FLOW_start">
+      <extensionElements>
+        <activiti:executionListener event="start" expression="${execution.setVariable('formTypeId', 'REIMBURSE')}"/>
+        <activiti:executionListener event="start" expression="${execution.setVariable('_ACTIVITI_SKIP_EXPRESSION_ENABLED', true)}"/>
+        <activiti:executionListener event="start" expression="${dingTalkProcessService.startPostProcessor(execution)}"/>
+      </extensionElements>
+    </startEvent>
+    <sequenceFlow id="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f-ccd6bda8-c69f-4adf-bd9f-8984a57efb69-28" sourceRef="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f" targetRef="DINGTALK_FLOW_ccd6bda8-c69f-4adf-bd9f-8984a57efb69"/>
+    <sequenceFlow id="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb-bd0c2faa-e110-4a26-915a-b7816349121f-29" sourceRef="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb" targetRef="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f"/>
+    <sequenceFlow id="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8-4e84a126-2e02-4d33-ab4d-cb9410daf0ec-30" sourceRef="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8" targetRef="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec"/>
+    <sequenceFlow id="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec-2ee67020-227e-4d07-9ca2-c41ebe5e867a-31" sourceRef="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec" targetRef="DINGTALK_FLOW_2ee67020-227e-4d07-9ca2-c41ebe5e867a"/>
+    <sequenceFlow id="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972-afec5084-a10b-4f03-be2f-b66c5b7cbd1d-32" sourceRef="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972" targetRef="DINGTALK_FLOW_afec5084-a10b-4f03-be2f-b66c5b7cbd1d"/>
+    <sequenceFlow id="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-33" sourceRef="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e" targetRef="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be"/>
+    <sequenceFlow id="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-34" sourceRef="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee" targetRef="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be"/>
+  </process>
+  <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
+    <bpmndi:BPMNPlane bpmnElement="DINGTALK_REIMBURSE_DTEC1910111NIUH9H2">
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_start" id="Shape-DINGTALK_FLOW_start">
+        <omgdc:Bounds height="32.0" width="32.0" x="20.0" y="200.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be" id="Shape-DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be">
+        <omgdc:Bounds height="55.0" width="85.0" x="1626.0" y="-149.75"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_audit" id="Shape-DINGTALK_FLOW_audit">
+        <omgdc:Bounds height="55.0" width="85.0" x="1771.0" y="-149.75"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_35246ca2-ecf0-405a-ab65-ad8c30bd9907" id="Shape-DINGTALK_FLOW_35246ca2-ecf0-405a-ab65-ad8c30bd9907">
+        <omgdc:Bounds height="55.0" width="85.0" x="1916.0" y="-149.75"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_settle" id="Shape-DINGTALK_FLOW_settle">
+        <omgdc:Bounds height="55.0" width="85.0" x="2061.0" y="-149.75"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_end" id="Shape-DINGTALK_FLOW_end">
+        <omgdc:Bounds height="32.0" width="32.0" x="2206.0" y="-138.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee" id="Shape-DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="1205.0" y="57.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_f04a5022-2e18-4a81-9d07-531717407e08" id="Shape-DINGTALK_FLOW_f04a5022-2e18-4a81-9d07-531717407e08">
+        <omgdc:Bounds height="55.0" width="85.0" x="1481.0" y="40.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_25817de4-715a-4149-ba1d-9b45fd647d65" id="Shape-DINGTALK_FLOW_25817de4-715a-4149-ba1d-9b45fd647d65">
+        <omgdc:Bounds height="55.0" width="85.0" x="1481.0" y="-54.75"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e" id="Shape-DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="1389.0" y="-43.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_69cb4330-7fed-4988-9281-e5507c606550" id="Shape-DINGTALK_FLOW_69cb4330-7fed-4988-9281-e5507c606550">
+        <omgdc:Bounds height="55.0" width="85.0" x="1481.0" y="-149.75"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972" id="Shape-DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="1297.0" y="57.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_afec5084-a10b-4f03-be2f-b66c5b7cbd1d" id="Shape-DINGTALK_FLOW_afec5084-a10b-4f03-be2f-b66c5b7cbd1d">
+        <omgdc:Bounds height="55.0" width="85.0" x="1389.0" y="135.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_2ee67020-227e-4d07-9ca2-c41ebe5e867a" id="Shape-DINGTALK_FLOW_2ee67020-227e-4d07-9ca2-c41ebe5e867a">
+        <omgdc:Bounds height="55.0" width="85.0" x="1060.0" y="141.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec" id="Shape-DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="968.0" y="105.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_db4fe3dc-f754-4726-a888-a4343b1f2ab8" id="Shape-DINGTALK_FLOW_db4fe3dc-f754-4726-a888-a4343b1f2ab8">
+        <omgdc:Bounds height="55.0" width="85.0" x="1060.0" y="46.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8" id="Shape-DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="731.0" y="105.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_7c4bb8f9-1f8d-4597-a3d2-9893b64113f3" id="Shape-DINGTALK_FLOW_7c4bb8f9-1f8d-4597-a3d2-9893b64113f3">
+        <omgdc:Bounds height="55.0" width="85.0" x="823.0" y="93.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_c6271cd9-fd4d-4b4d-8711-b49f5e8d4202" id="Shape-DINGTALK_FLOW_c6271cd9-fd4d-4b4d-8711-b49f5e8d4202">
+        <omgdc:Bounds height="55.0" width="85.0" x="441.0" y="188.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_297dd328-8535-4da1-b8e0-2f420c58dfcd" id="Shape-DINGTALK_FLOW_297dd328-8535-4da1-b8e0-2f420c58dfcd">
+        <omgdc:Bounds height="55.0" width="85.0" x="441.0" y="93.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_0a6a9ef7-cc92-4fa4-bfbb-64c545074964" id="Shape-DINGTALK_FLOW_0a6a9ef7-cc92-4fa4-bfbb-64c545074964">
+        <omgdc:Bounds height="55.0" width="85.0" x="586.0" y="93.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f" id="Shape-DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="349.0" y="200.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_ccd6bda8-c69f-4adf-bd9f-8984a57efb69" id="Shape-DINGTALK_FLOW_ccd6bda8-c69f-4adf-bd9f-8984a57efb69">
+        <omgdc:Bounds height="55.0" width="85.0" x="441.0" y="283.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb" id="Shape-DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="112.0" y="200.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="DINGTALK_FLOW_f5e52cde-32c3-46c9-9e40-8ecea90663e4" id="Shape-DINGTALK_FLOW_f5e52cde-32c3-46c9-9e40-8ecea90663e4">
+        <omgdc:Bounds height="55.0" width="85.0" x="204.0" y="188.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-69cb4330-7fed-4988-9281-e5507c606550-14" id="BPMNEdge_DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-69cb4330-7fed-4988-9281-e5507c606550-14" sourceElement="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e" targetElement="DINGTALK_FLOW_69cb4330-7fed-4988-9281-e5507c606550">
+        <omgdi:waypoint x="1420.75" y="-27.25"/>
+        <omgdi:waypoint x="1481.0" y="-122.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb-bd0c2faa-e110-4a26-915a-b7816349121f-29" id="BPMNEdge_DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb-bd0c2faa-e110-4a26-915a-b7816349121f-29" sourceElement="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb" targetElement="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f">
+        <omgdi:waypoint x="144.0" y="216.0"/>
+        <omgdi:waypoint x="349.0" y="216.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_25817de4-715a-4149-ba1d-9b45fd647d65-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-26" id="BPMNEdge_DINGTALK_FLOW_25817de4-715a-4149-ba1d-9b45fd647d65-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-26" sourceElement="DINGTALK_FLOW_25817de4-715a-4149-ba1d-9b45fd647d65" targetElement="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be">
+        <omgdi:waypoint x="1566.0" y="-27.25"/>
+        <omgdi:waypoint x="1626.0" y="-122.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f-297dd328-8535-4da1-b8e0-2f420c58dfcd-5" id="BPMNEdge_DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f-297dd328-8535-4da1-b8e0-2f420c58dfcd-5" sourceElement="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f" targetElement="DINGTALK_FLOW_297dd328-8535-4da1-b8e0-2f420c58dfcd">
+        <omgdi:waypoint x="381.0" y="216.0"/>
+        <omgdi:waypoint x="441.0" y="121.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8-7c4bb8f9-1f8d-4597-a3d2-9893b64113f3-7" id="BPMNEdge_DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8-7c4bb8f9-1f8d-4597-a3d2-9893b64113f3-7" sourceElement="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8" targetElement="DINGTALK_FLOW_7c4bb8f9-1f8d-4597-a3d2-9893b64113f3">
+        <omgdi:waypoint x="763.0" y="121.0"/>
+        <omgdi:waypoint x="823.0" y="121.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f-ccd6bda8-c69f-4adf-bd9f-8984a57efb69-28" id="BPMNEdge_DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f-ccd6bda8-c69f-4adf-bd9f-8984a57efb69-28" sourceElement="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f" targetElement="DINGTALK_FLOW_ccd6bda8-c69f-4adf-bd9f-8984a57efb69">
+        <omgdi:waypoint x="381.0" y="216.0"/>
+        <omgdi:waypoint x="441.0" y="311.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_afec5084-a10b-4f03-be2f-b66c5b7cbd1d-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-25" id="BPMNEdge_DINGTALK_FLOW_afec5084-a10b-4f03-be2f-b66c5b7cbd1d-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-25" sourceElement="DINGTALK_FLOW_afec5084-a10b-4f03-be2f-b66c5b7cbd1d" targetElement="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be">
+        <omgdi:waypoint x="1474.0" y="162.75"/>
+        <omgdi:waypoint x="1626.0" y="-122.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8-4e84a126-2e02-4d33-ab4d-cb9410daf0ec-30" id="BPMNEdge_DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8-4e84a126-2e02-4d33-ab4d-cb9410daf0ec-30" sourceElement="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8" targetElement="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec">
+        <omgdi:waypoint x="763.0" y="121.0"/>
+        <omgdi:waypoint x="968.0" y="121.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_0a6a9ef7-cc92-4fa4-bfbb-64c545074964-ed60ca90-15d0-4e18-97b4-33a858e5d5a8-10" id="BPMNEdge_DINGTALK_FLOW_0a6a9ef7-cc92-4fa4-bfbb-64c545074964-ed60ca90-15d0-4e18-97b4-33a858e5d5a8-10" sourceElement="DINGTALK_FLOW_0a6a9ef7-cc92-4fa4-bfbb-64c545074964" targetElement="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8">
+        <omgdi:waypoint x="671.0" y="121.0"/>
+        <omgdi:waypoint x="731.0" y="121.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_7c4bb8f9-1f8d-4597-a3d2-9893b64113f3-4e84a126-2e02-4d33-ab4d-cb9410daf0ec-12" id="BPMNEdge_DINGTALK_FLOW_7c4bb8f9-1f8d-4597-a3d2-9893b64113f3-4e84a126-2e02-4d33-ab4d-cb9410daf0ec-12" sourceElement="DINGTALK_FLOW_7c4bb8f9-1f8d-4597-a3d2-9893b64113f3" targetElement="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec">
+        <omgdi:waypoint x="908.0" y="121.0"/>
+        <omgdi:waypoint x="968.0" y="121.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_c6271cd9-fd4d-4b4d-8711-b49f5e8d4202-ed60ca90-15d0-4e18-97b4-33a858e5d5a8-9" id="BPMNEdge_DINGTALK_FLOW_c6271cd9-fd4d-4b4d-8711-b49f5e8d4202-ed60ca90-15d0-4e18-97b4-33a858e5d5a8-9" sourceElement="DINGTALK_FLOW_c6271cd9-fd4d-4b4d-8711-b49f5e8d4202" targetElement="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8">
+        <omgdi:waypoint x="526.0" y="216.0"/>
+        <omgdi:waypoint x="731.0" y="121.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee-8a209423-da1d-4d82-a12b-63318fd87972-13" id="BPMNEdge_DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee-8a209423-da1d-4d82-a12b-63318fd87972-13" sourceElement="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee" targetElement="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972">
+        <omgdi:waypoint x="1236.5" y="73.5"/>
+        <omgdi:waypoint x="1297.5" y="73.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_audit-35246ca2-ecf0-405a-ab65-ad8c30bd9907-22" id="BPMNEdge_DINGTALK_FLOW_audit-35246ca2-ecf0-405a-ab65-ad8c30bd9907-22" sourceElement="DINGTALK_FLOW_audit" targetElement="DINGTALK_FLOW_35246ca2-ecf0-405a-ab65-ad8c30bd9907">
+        <omgdi:waypoint x="1856.0" y="-122.25"/>
+        <omgdi:waypoint x="1916.0" y="-122.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972-afec5084-a10b-4f03-be2f-b66c5b7cbd1d-32" id="BPMNEdge_DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972-afec5084-a10b-4f03-be2f-b66c5b7cbd1d-32" sourceElement="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972" targetElement="DINGTALK_FLOW_afec5084-a10b-4f03-be2f-b66c5b7cbd1d">
+        <omgdi:waypoint x="1328.5" y="73.5"/>
+        <omgdi:waypoint x="1389.0" y="162.75"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_ccd6bda8-c69f-4adf-bd9f-8984a57efb69-ed60ca90-15d0-4e18-97b4-33a858e5d5a8-8" id="BPMNEdge_DINGTALK_FLOW_ccd6bda8-c69f-4adf-bd9f-8984a57efb69-ed60ca90-15d0-4e18-97b4-33a858e5d5a8-8" sourceElement="DINGTALK_FLOW_ccd6bda8-c69f-4adf-bd9f-8984a57efb69" targetElement="DINGTALK_FLOW_ed60ca90-15d0-4e18-97b4-33a858e5d5a8">
+        <omgdi:waypoint x="526.0" y="311.0"/>
+        <omgdi:waypoint x="731.0" y="121.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f-c6271cd9-fd4d-4b4d-8711-b49f5e8d4202-6" id="BPMNEdge_DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f-c6271cd9-fd4d-4b4d-8711-b49f5e8d4202-6" sourceElement="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f" targetElement="DINGTALK_FLOW_c6271cd9-fd4d-4b4d-8711-b49f5e8d4202">
+        <omgdi:waypoint x="381.0" y="216.0"/>
+        <omgdi:waypoint x="441.0" y="216.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_db4fe3dc-f754-4726-a888-a4343b1f2ab8-701035c8-c2ff-4a88-b6f2-61884873e3ee-19" id="BPMNEdge_DINGTALK_FLOW_db4fe3dc-f754-4726-a888-a4343b1f2ab8-701035c8-c2ff-4a88-b6f2-61884873e3ee-19" sourceElement="DINGTALK_FLOW_db4fe3dc-f754-4726-a888-a4343b1f2ab8" targetElement="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee">
+        <omgdi:waypoint x="1145.0" y="73.5"/>
+        <omgdi:waypoint x="1205.5" y="73.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec-db4fe3dc-f754-4726-a888-a4343b1f2ab8-11" id="BPMNEdge_DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec-db4fe3dc-f754-4726-a888-a4343b1f2ab8-11" sourceElement="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec" targetElement="DINGTALK_FLOW_db4fe3dc-f754-4726-a888-a4343b1f2ab8">
+        <omgdi:waypoint x="1000.0" y="121.0"/>
+        <omgdi:waypoint x="1060.0" y="73.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-f04a5022-2e18-4a81-9d07-531717407e08-17" id="BPMNEdge_DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-f04a5022-2e18-4a81-9d07-531717407e08-17" sourceElement="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e" targetElement="DINGTALK_FLOW_f04a5022-2e18-4a81-9d07-531717407e08">
+        <omgdi:waypoint x="1420.75" y="-27.25"/>
+        <omgdi:waypoint x="1481.0" y="67.75"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_35246ca2-ecf0-405a-ab65-ad8c30bd9907-settle-21" id="BPMNEdge_DINGTALK_FLOW_35246ca2-ecf0-405a-ab65-ad8c30bd9907-settle-21" sourceElement="DINGTALK_FLOW_35246ca2-ecf0-405a-ab65-ad8c30bd9907" targetElement="DINGTALK_FLOW_settle">
+        <omgdi:waypoint x="2001.0" y="-122.25"/>
+        <omgdi:waypoint x="2061.0" y="-122.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_f5e52cde-32c3-46c9-9e40-8ecea90663e4-bd0c2faa-e110-4a26-915a-b7816349121f-3" id="BPMNEdge_DINGTALK_FLOW_f5e52cde-32c3-46c9-9e40-8ecea90663e4-bd0c2faa-e110-4a26-915a-b7816349121f-3" sourceElement="DINGTALK_FLOW_f5e52cde-32c3-46c9-9e40-8ecea90663e4" targetElement="DINGTALK_FLOW_bd0c2faa-e110-4a26-915a-b7816349121f">
+        <omgdi:waypoint x="289.0" y="216.0"/>
+        <omgdi:waypoint x="349.0" y="216.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972-f9852951-e513-444d-9d89-782ad253b40e-15" id="BPMNEdge_DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972-f9852951-e513-444d-9d89-782ad253b40e-15" sourceElement="DINGTALK_FLOW_8a209423-da1d-4d82-a12b-63318fd87972" targetElement="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e">
+        <omgdi:waypoint x="1328.5" y="73.5"/>
+        <omgdi:waypoint x="1389.25" y="-27.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-33" id="BPMNEdge_DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-33" sourceElement="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e" targetElement="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be">
+        <omgdi:waypoint x="1420.75" y="-27.25"/>
+        <omgdi:waypoint x="1626.0" y="-122.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_297dd328-8535-4da1-b8e0-2f420c58dfcd-0a6a9ef7-cc92-4fa4-bfbb-64c545074964-4" id="BPMNEdge_DINGTALK_FLOW_297dd328-8535-4da1-b8e0-2f420c58dfcd-0a6a9ef7-cc92-4fa4-bfbb-64c545074964-4" sourceElement="DINGTALK_FLOW_297dd328-8535-4da1-b8e0-2f420c58dfcd" targetElement="DINGTALK_FLOW_0a6a9ef7-cc92-4fa4-bfbb-64c545074964">
+        <omgdi:waypoint x="526.0" y="121.0"/>
+        <omgdi:waypoint x="586.0" y="121.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec-2ee67020-227e-4d07-9ca2-c41ebe5e867a-31" id="BPMNEdge_DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec-2ee67020-227e-4d07-9ca2-c41ebe5e867a-31" sourceElement="DINGTALK_FLOW_4e84a126-2e02-4d33-ab4d-cb9410daf0ec" targetElement="DINGTALK_FLOW_2ee67020-227e-4d07-9ca2-c41ebe5e867a">
+        <omgdi:waypoint x="1000.0" y="121.0"/>
+        <omgdi:waypoint x="1060.0" y="168.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb-f5e52cde-32c3-46c9-9e40-8ecea90663e4-1" id="BPMNEdge_DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb-f5e52cde-32c3-46c9-9e40-8ecea90663e4-1" sourceElement="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb" targetElement="DINGTALK_FLOW_f5e52cde-32c3-46c9-9e40-8ecea90663e4">
+        <omgdi:waypoint x="144.0" y="216.0"/>
+        <omgdi:waypoint x="204.0" y="216.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_settle-end-20" id="BPMNEdge_DINGTALK_FLOW_settle-end-20" sourceElement="DINGTALK_FLOW_settle" targetElement="DINGTALK_FLOW_end">
+        <omgdi:waypoint x="2146.0" y="-122.25"/>
+        <omgdi:waypoint x="2206.001953244224" y="-122.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-audit-23" id="BPMNEdge_DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-audit-23" sourceElement="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be" targetElement="DINGTALK_FLOW_audit">
+        <omgdi:waypoint x="1711.0" y="-122.25"/>
+        <omgdi:waypoint x="1771.0" y="-122.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_start-e7118343-55c6-482b-bb57-e16b18ac5aeb-2" id="BPMNEdge_DINGTALK_FLOW_start-e7118343-55c6-482b-bb57-e16b18ac5aeb-2" sourceElement="DINGTALK_FLOW_start" targetElement="DINGTALK_FLOW_e7118343-55c6-482b-bb57-e16b18ac5aeb">
+        <omgdi:waypoint x="52.0" y="216.0"/>
+        <omgdi:waypoint x="112.0" y="216.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-25817de4-715a-4149-ba1d-9b45fd647d65-16" id="BPMNEdge_DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e-25817de4-715a-4149-ba1d-9b45fd647d65-16" sourceElement="DINGTALK_FLOW_f9852951-e513-444d-9d89-782ad253b40e" targetElement="DINGTALK_FLOW_25817de4-715a-4149-ba1d-9b45fd647d65">
+        <omgdi:waypoint x="1420.75" y="-27.25"/>
+        <omgdi:waypoint x="1481.0" y="-27.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_69cb4330-7fed-4988-9281-e5507c606550-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-27" id="BPMNEdge_DINGTALK_FLOW_69cb4330-7fed-4988-9281-e5507c606550-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-27" sourceElement="DINGTALK_FLOW_69cb4330-7fed-4988-9281-e5507c606550" targetElement="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be">
+        <omgdi:waypoint x="1566.0" y="-122.25"/>
+        <omgdi:waypoint x="1626.0" y="-122.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_2ee67020-227e-4d07-9ca2-c41ebe5e867a-701035c8-c2ff-4a88-b6f2-61884873e3ee-18" id="BPMNEdge_DINGTALK_FLOW_2ee67020-227e-4d07-9ca2-c41ebe5e867a-701035c8-c2ff-4a88-b6f2-61884873e3ee-18" sourceElement="DINGTALK_FLOW_2ee67020-227e-4d07-9ca2-c41ebe5e867a" targetElement="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee">
+        <omgdi:waypoint x="1145.0" y="168.5"/>
+        <omgdi:waypoint x="1205.5" y="73.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_f04a5022-2e18-4a81-9d07-531717407e08-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-24" id="BPMNEdge_DINGTALK_FLOW_f04a5022-2e18-4a81-9d07-531717407e08-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-24" sourceElement="DINGTALK_FLOW_f04a5022-2e18-4a81-9d07-531717407e08" targetElement="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be">
+        <omgdi:waypoint x="1566.0" y="67.75"/>
+        <omgdi:waypoint x="1626.0" y="-122.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-34" id="BPMNEdge_DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee-5fdf4b73-afe8-495a-87b8-b4f8ba38e2be-34" sourceElement="DINGTALK_FLOW_701035c8-c2ff-4a88-b6f2-61884873e3ee" targetElement="DINGTALK_FLOW_5fdf4b73-afe8-495a-87b8-b4f8ba38e2be">
+        <omgdi:waypoint x="1236.5" y="73.5"/>
+        <omgdi:waypoint x="1626.0" y="-122.25"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="-1.0" width="-1.0" x="-1.0" y="-1.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
